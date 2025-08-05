@@ -17,9 +17,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <header style={{ backgroundColor: '#007bff', color: 'white', padding: '1rem', textAlign: 'center' }}>
-          <h2>Sistema de Chamados</h2>
-        </header>
+        {/* O cabeçalho foi removido aqui */}
         {children}
       </body>
     </html>
