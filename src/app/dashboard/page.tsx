@@ -84,7 +84,7 @@ export default function DashboardPage() {
     <main>
       <h1>Bem-vindo, {user.name}!</h1>
       <p>Seu papel: <strong>{user.role}</strong></p>
-
+      
       {user.role === 'USER' && (
         <>
           <Link href="/tickets/new" style={{ padding: '0.75rem', backgroundColor: '#28a745', color: 'white', borderRadius: '4px', textDecoration: 'none' }}>
