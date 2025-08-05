@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import api from '@/lib/api';
 import Link from 'next/link';
+import { io, Socket } from 'socket.io-client';
 
 interface User {
   id: string;
@@ -51,6 +52,25 @@ export default function DashboardPage() {
     };
 
     fetchTickets();
+
+    // Lógica do WebSocket
+    let socket: Socket;
+    if (userData.role === 'TECHNICIAN' || userData.role === 'ADMIN') {
+      socket = io(process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001');
+      socket.emit('technician-available', userData.id);
+
+      socket.on('new-ticket-alert', (newTicket) => {
+        alert(`Novo Chamado Aberto: ${newTicket.title}`);
+        fetchTickets(); // Atualiza a lista de chamados
+      });
+    }
+
+    return () => {
+      if (socket) {
+        socket.disconnect();
+      }
+    };
+
   }, [router]);
 
   if (!user) {
