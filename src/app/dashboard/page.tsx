@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import api from '@/lib/api';
 import Link from 'next/link';
 import { io, Socket } from 'socket.io-client';
+import { toast } from 'react-toastify';
 import UserDashboard from '@/components/UserDashboard';
 import TechnicianDashboard from '@/components/TechnicianDashboard';
 import AdminDashboard from '@/components/AdminDashboard';
@@ -65,6 +66,7 @@ export default function DashboardPage() {
         }
       } catch (error) {
         console.error('Erro ao buscar chamados', error);
+        toast.error('Erro ao buscar chamados.');
       }
     };
 
@@ -76,7 +78,7 @@ export default function DashboardPage() {
       socket.emit('technician-available', userData.id);
 
       socket.on('new-ticket-alert', (newTicket) => {
-        alert(`Novo Chamado Aberto: ${newTicket.title}`);
+        toast.info(`Novo Chamado Aberto: ${newTicket.title}`);
         fetchTickets();
       });
     }
@@ -96,7 +98,6 @@ export default function DashboardPage() {
 
   return (
     <div className="flex h-screen bg-gray-100">
-      {/* Sidebar (Menu Lateral) */}
       <aside className={`bg-gray-800 text-white p-4 transition-all duration-300 ease-in-out ${isSidebarOpen ? 'w-64' : 'w-16'}`}>
         <div className="flex flex-col items-center space-y-4 mb-6">
           <button onClick={handleSidebarToggle} className="text-white focus:outline-none p-2 rounded-lg hover:bg-gray-700">
