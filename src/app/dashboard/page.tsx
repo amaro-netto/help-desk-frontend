@@ -81,58 +81,65 @@ export default function DashboardPage() {
   }
 
   return (
-    <main>
-      <h1>Bem-vindo, {user.name}!</h1>
-      <p>Seu papel: <strong>{user.role}</strong></p>
-      
-      {user.role === 'USER' && (
-        <>
-          <Link href="/tickets/new" style={{ padding: '0.75rem', backgroundColor: '#28a745', color: 'white', borderRadius: '4px', textDecoration: 'none' }}>
-            Abrir Novo Chamado
-          </Link>
-          <h2 style={{ marginTop: '1rem' }}>Meus Chamados</h2>
-          {tickets.length === 0 ? (
-            <p>Você não abriu nenhum chamado.</p>
-          ) : (
-            <ul>
-              {tickets.map(ticket => (
-                <li key={ticket.id}>
-                  <Link href={`/tickets/${ticket.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-                    <strong>{ticket.title}</strong> - Status: {ticket.status}
-                  </Link>
-                </li>
-              ))}
-            </ul>
+    <div className="flex h-screen bg-gray-100">
+      {/* Sidebar (Menu Lateral) */}
+      <aside className="w-64 bg-gray-800 text-white p-4">
+        <h2 className="text-2xl font-bold mb-6">Menu</h2>
+        <nav className="space-y-2">
+          <Link href="/dashboard" className="block p-2 rounded-lg hover:bg-gray-700">Dashboard</Link>
+          {user.role === 'ADMIN' && (
+            <Link href="/admin/users" className="block p-2 rounded-lg hover:bg-gray-700">Gerenciar Usuários</Link>
           )}
-        </>
-      )}
-
-      {(user.role === 'TECHNICIAN' || user.role === 'ADMIN') && (
-        <>
-          <h2 style={{ marginTop: '1rem' }}>Todos os Chamados</h2>
-          {tickets.length === 0 ? (
-            <p>Nenhum chamado encontrado.</p>
-          ) : (
-            <ul>
-              {tickets.map(ticket => (
-                <li key={ticket.id}>
-                  <Link href={`/tickets/${ticket.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-                    <strong>{ticket.title}</strong> - Status: {ticket.status} (Prioridade: {ticket.priority})
-                  </Link>
-                </li>
-              ))}
-            </ul>
+          {user.role === 'USER' && (
+            <Link href="/tickets/new" className="block p-2 rounded-lg hover:bg-gray-700">Novo Chamado</Link>
           )}
-        </>
-      )}
+          <button className="w-full text-left p-2 rounded-lg hover:bg-gray-700">Sair</button>
+        </nav>
+      </aside>
 
-      {user.role === 'ADMIN' && (
-        <div style={{ marginTop: '2rem' }}>
-          <Link href="/admin/users" style={{ padding: '0.75rem', backgroundColor: '#007bff', color: 'white', borderRadius: '4px', textDecoration: 'none' }}>
-            Gerenciar Usuários
-          </Link>
-        </div>
-      )}
-    </main>
+      {/* Main Content (Conteúdo Principal) */}
+      <main className="flex-1 p-8 overflow-y-auto">
+        <h1 className="text-3xl font-bold text-gray-800 mb-4">Bem-vindo, {user.name}!</h1>
+        <p className="text-gray-600 mb-6">Seu papel: <strong>{user.role}</strong></p>
+        
+        {user.role === 'USER' && (
+          <>
+            <h2 className="text-2xl font-bold mb-4">Meus Chamados</h2>
+            {tickets.length === 0 ? (
+              <p>Você não abriu nenhum chamado.</p>
+            ) : (
+              <ul className="space-y-2">
+                {tickets.map(ticket => (
+                  <li key={ticket.id} className="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition">
+                    <Link href={`/tickets/${ticket.id}`} className="block">
+                      <strong className="text-blue-600">{ticket.title}</strong> - Status: {ticket.status}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </>
+        )}
+
+        {(user.role === 'TECHNICIAN' || user.role === 'ADMIN') && (
+          <>
+            <h2 className="text-2xl font-bold mb-4">Todos os Chamados</h2>
+            {tickets.length === 0 ? (
+              <p>Nenhum chamado encontrado.</p>
+            ) : (
+              <ul className="space-y-2">
+                {tickets.map(ticket => (
+                  <li key={ticket.id} className="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition">
+                    <Link href={`/tickets/${ticket.id}`} className="block">
+                      <strong className="text-blue-600">{ticket.title}</strong> - Status: {ticket.status} (Prioridade: {ticket.priority})
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </>
+        )}
+      </main>
+    </div>
   );
 }
