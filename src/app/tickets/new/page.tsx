@@ -29,34 +29,44 @@ export default function NewTicketPage() {
   };
 
   return (
-    <main>
-      <h1>Criar Novo Chamado</h1>
-      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', maxWidth: '400px', gap: '1rem' }}>
-        <input
-          type="text"
-          placeholder="Título"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          required
-        />
-        <textarea
-          placeholder="Descrição"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          required
-        />
-        <select value={type} onChange={(e) => setType(e.target.value)}>
-          <option value="INCIDENT">Incidente</option>
-          <option value="AQUISITION">Aquisição</option>
-        </select>
-        <select value={priority} onChange={(e) => setPriority(e.target.value)}>
-          <option value="LOW">Baixa</option>
-          <option value="MEDIUM">Média</option>
-          <option value="HIGH">Alta</option>
-          <option value="CRITICAL">Crítica</option>
-        </select>
-        <button type="submit">Criar Chamado</button>
-      </form>
-    </main>
+    <div className="flex min-h-screen items-center justify-center bg-gray-100 p-4">
+      <div className="bg-white p-8 rounded-lg shadow-xl w-full max-w-lg">
+        <h1 className="text-3xl font-bold text-center mb-6 text-gray-800">Abrir Novo Chamado</h1>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <input
+            type="text"
+            placeholder="Título do Chamado"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            required
+            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <textarea
+            placeholder="Descrição detalhada do problema ou aquisição"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            required
+            rows={4}
+            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <select value={type} onChange={(e) => setType(e.target.value)} className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <option value="INCIDENT">Incidente</option>
+            <option value="AQUISITION">Aquisição</option>
+          </select>
+          <select value={priority} onChange={(e) => setPriority(e.target.value)} className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <option value="LOW">Baixa</option>
+            <option value="MEDIUM">Média</option>
+            <option value="HIGH">Alta</option>
+            <option value="CRITICAL">Crítica</option>
+          </select>
+          <button
+            type="submit"
+            className="w-full text-white font-bold py-2 px-4 rounded-lg bg-blue-600 hover:bg-blue-700 transition duration-200"
+          >
+            Criar Chamado
+          </button>
+        </form>
+      </div>
+    </div>
   );
 }

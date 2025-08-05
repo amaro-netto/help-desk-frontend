@@ -96,6 +96,7 @@ export default function DashboardPage() {
 
   return (
     <div className="flex h-screen bg-gray-100">
+      {/* Sidebar (Menu Lateral) */}
       <aside className={`bg-gray-800 text-white p-4 transition-all duration-300 ease-in-out ${isSidebarOpen ? 'w-64' : 'w-16'}`}>
         <div className="flex flex-col items-center space-y-4 mb-6">
           <button onClick={handleSidebarToggle} className="text-white focus:outline-none p-2 rounded-lg hover:bg-gray-700">
@@ -110,11 +111,9 @@ export default function DashboardPage() {
             )}
           </button>
           {isSidebarOpen ? (
-            <img src="/images/brand-logo.svg" alt="Logo da Marca" className="h-8" />
+            <img src="/images/logoH.svg" alt="Logo da Marca" className="h-8" />
           ) : (
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
+            <img src="/images/icon.svg" alt="Logo da Marca" className="h-6 w-6" />
           )}
         </div>
         <nav className="space-y-2">
