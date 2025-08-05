@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import api from '@/lib/api';
+import Link from 'next/link';
 
 interface User {
   id: string;
@@ -29,7 +30,6 @@ export default function DashboardPage() {
   const router = useRouter();
 
   useEffect(() => {
-    // 1. Verifica se o usuário está autenticado
     const token = localStorage.getItem('token');
     const userStored = localStorage.getItem('user');
 
@@ -41,7 +41,6 @@ export default function DashboardPage() {
     const userData: User = JSON.parse(userStored);
     setUser(userData);
 
-    // 2. Busca os chamados da API
     const fetchTickets = async () => {
       try {
         const response = await api.get('/api/tickets');
@@ -55,17 +54,20 @@ export default function DashboardPage() {
   }, [router]);
 
   if (!user) {
-    return <div>Carregando...</div>;
+    return <main>Carregando...</main>;
   }
 
   return (
-    <main style={{ padding: '2rem' }}>
+    <main>
       <h1>Bem-vindo, {user.name}!</h1>
       <p>Seu papel: <strong>{user.role}</strong></p>
       
       {user.role === 'USER' && (
         <>
-          <h2>Meus Chamados</h2>
+          <Link href="/tickets/new" style={{ padding: '0.75rem', backgroundColor: '#28a745', color: 'white', borderRadius: '4px', textDecoration: 'none' }}>
+            Abrir Novo Chamado
+          </Link>
+          <h2 style={{ marginTop: '1rem' }}>Meus Chamados</h2>
           {tickets.length === 0 ? (
             <p>Você não abriu nenhum chamado.</p>
           ) : (
@@ -82,7 +84,7 @@ export default function DashboardPage() {
 
       {(user.role === 'TECHNICIAN' || user.role === 'ADMIN') && (
         <>
-          <h2>Todos os Chamados</h2>
+          <h2 style={{ marginTop: '1rem' }}>Todos os Chamados</h2>
           {tickets.length === 0 ? (
             <p>Nenhum chamado encontrado.</p>
           ) : (
