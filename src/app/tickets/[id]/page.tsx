@@ -39,7 +39,7 @@ export default function TicketDetailsPage() {
 
     const fetchTicket = async () => {
       try {
-        const response = await api.get(`/api/tickets/${id}`);
+        const response = await api.get(`/tickets/${id}`);
         setTicket(response.data);
       } catch (error) {
         console.error('Erro ao buscar detalhes do chamado', error);
@@ -54,7 +54,7 @@ export default function TicketDetailsPage() {
   const handleAcceptTicket = async () => {
     if (!ticket) return;
     try {
-      await api.post(`/api/tickets/${ticket.id}/accept`);
+      await api.post(`/tickets/${ticket.id}/accept`);
       alert('Chamado aceito com sucesso!');
       router.push('/dashboard');
     } catch (error) {
@@ -66,7 +66,7 @@ export default function TicketDetailsPage() {
   const handleResolveTicket = async () => {
     if (!ticket) return;
     try {
-      await api.put(`/api/tickets/${ticket.id}`, { status: 'RESOLVED', assigned_to: user?.id });
+      await api.put(`/tickets/${ticket.id}`, { status: 'RESOLVED', assigned_to: user?.id });
       alert('Chamado resolvido com sucesso!');
       router.push('/dashboard');
     } catch (error) {

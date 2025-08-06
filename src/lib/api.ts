@@ -1,10 +1,11 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL,
+  // Adicione o /api na URL base
+  baseURL: `${process.env.NEXT_PUBLIC_API_URL}/api`,
 });
 
-// Interceptador para adicionar o token JWT em cada requisição
+// O interceptador continua igual
 api.interceptors.request.use((config) => {
   if (typeof window !== 'undefined') {
     const token = localStorage.getItem('token');

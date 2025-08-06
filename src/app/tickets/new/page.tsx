@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import api from '@/lib/api';
-import { toast } from 'react-toastify';
 
 export default function NewTicketPage() {
   const [title, setTitle] = useState('');
@@ -15,17 +14,17 @@ export default function NewTicketPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await api.post('/api/tickets', {
+      await api.post('/tickets', {
         title,
         description,
         type,
         priority
       });
-      toast.success('Chamado criado com sucesso!');
+      alert('Chamado criado com sucesso!');
       router.push('/dashboard');
     } catch (error) {
       console.error('Erro ao criar chamado', error);
-      toast.error('Erro ao criar o chamado.');
+      alert('Erro ao criar o chamado.');
     }
   };
 

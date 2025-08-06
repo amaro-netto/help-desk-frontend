@@ -59,7 +59,7 @@ export default function DashboardPage() {
 
     const fetchTickets = async () => {
       try {
-        const response = await api.get('/api/tickets');
+        const response = await api.get('/tickets');
         if (isMounted) {
           setTickets(response.data);
         }
