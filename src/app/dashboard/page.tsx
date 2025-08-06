@@ -1,3 +1,4 @@
+// src/app/dashboard/page.tsx
 "use client";
 
 import { useEffect, useState } from 'react';
@@ -8,6 +9,7 @@ import { io, Socket } from 'socket.io-client';
 import UserDashboard from '@/components/UserDashboard';
 import TechnicianDashboard from '@/components/TechnicianDashboard';
 import AdminDashboard from '@/components/AdminDashboard';
+import { toast } from 'react-toastify'; // Importado para substituir o alert
 
 interface User {
   id: string;
@@ -32,7 +34,7 @@ export default function DashboardPage() {
   const [user, setUser] = useState<User | null>(null);
   const [tickets, setTickets] = useState<Ticket[]>([]);
   const router = useRouter();
-
+  
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const handleSidebarToggle = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -76,7 +78,7 @@ export default function DashboardPage() {
       socket.emit('technician-available', userData.id);
 
       socket.on('new-ticket-alert', (newTicket) => {
-        alert(`Novo Chamado Aberto: ${newTicket.title}`);
+        toast.info(`Novo Chamado Aberto: ${newTicket.title}`); // Substituí o alert pelo toast
         fetchTickets();
       });
     }
@@ -101,13 +103,13 @@ export default function DashboardPage() {
         <div className="flex flex-col items-center space-y-4 mb-6">
           <button onClick={handleSidebarToggle} className="text-white focus:outline-none p-2 rounded-lg hover:bg-gray-700">
             {isSidebarOpen ? (
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7 7-7" />
-              </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7 7-7" />
+                </svg>
             ) : (
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
             )}
           </button>
           {isSidebarOpen ? (
@@ -159,15 +161,9 @@ export default function DashboardPage() {
           
           {user.role === 'ADMIN' && (
             <>
-              <Link href="/dashboard" className="flex items-center p-2 rounded-lg hover:bg-gray-700">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m0 0l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0h6m-6 0v-5a1 1 0 011-1h4a1 1 0 011 1v5m-6 0h6" />
-                </svg>
-                {isSidebarOpen && <span className="ml-3">Dashboard</span>}
-              </Link>
               <Link href="/admin/users" className="flex items-center p-2 rounded-lg hover:bg-gray-700">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a1 1 0 01-.866-.5L9.5 2.154A1 1 0 008.134 2H5.986A2 2 0 004 4v10a2 2 0 002 2h12a2 2 0 002-2V4a2 2 0 00-2-2h-2.134a1 1 0 00-1.366.5zM7 11a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a1 1 0 01-.866-.5L9.5 2.154A1 1 0 008.134 2H5.986A2 2 0 004 4v10a2 2 0 002 2h12a2 2 0 002-2V4a2 2 0 00-2-2h-2.134a1 1 0 00-1.366.5zM7 11a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm7 4a1 1 0 11-2 0 1 1 0 012 0z" />
                 </svg>
                 {isSidebarOpen && <span className="ml-3">Gerenciar Usuários</span>}
               </Link>
@@ -187,20 +183,15 @@ export default function DashboardPage() {
       <main className="flex-1 p-8 overflow-y-auto">
         <h1 className="text-3xl font-bold text-gray-800 mb-4">Bem-vindo, {user.name}!</h1>
         <p className="text-gray-600 mb-6">Seu papel: <strong>{user.role}</strong></p>
-        
-        <h2 className="text-2xl font-bold mb-4">Acompanhamento de Chamados</h2>
-        {tickets.length === 0 ? (
-          <p>Nenhum chamado encontrado.</p>
-        ) : (
-          <ul className="space-y-2">
-            {tickets.map(ticket => (
-              <li key={ticket.id} className="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition">
-                <Link href={`/tickets/${ticket.id}`} className="block">
-                  <strong className="text-blue-600">{ticket.title}</strong> - Status: {ticket.status}
-                </Link>
-              </li>
-            ))}
-          </ul>
+
+        {user.role === 'USER' && (
+          <UserDashboard tickets={tickets.filter(t => t.created_by === user.id)} />
+        )}
+        {user.role === 'TECHNICIAN' && (
+          <TechnicianDashboard tickets={tickets} />
+        )}
+        {user.role === 'ADMIN' && (
+          <AdminDashboard tickets={tickets} />
         )}
       </main>
     </div>
