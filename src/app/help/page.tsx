@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
+import { toast } from 'react-toastify'; // Importamos a biblioteca
 
 export default function HelpPage() {
   const [email, setEmail] = useState('');
@@ -11,7 +12,7 @@ export default function HelpPage() {
     e.preventDefault();
     // Lógica para envio do e-mail ainda não está implementada no backend.
     // Esta parte do código é apenas para a interface.
-    alert('Sua mensagem foi enviada. O suporte entrará em contato em breve.');
+    toast.success('Sua mensagem foi enviada. O suporte entrará em contato em breve.'); // Substituído por toast.success
     setEmail('');
     setMessage('');
   };

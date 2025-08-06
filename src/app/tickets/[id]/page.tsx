@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import api from '@/lib/api';
 import Link from 'next/link';
+import { toast } from 'react-toastify'; // Importamos a biblioteca
 
 interface User {
   id: string;
@@ -55,11 +56,11 @@ export default function TicketDetailsPage() {
     if (!ticket) return;
     try {
       await api.post(`/tickets/${ticket.id}/accept`);
-      alert('Chamado aceito com sucesso!');
+      toast.success('Chamado aceito com sucesso!'); // Substituído por toast.success
       router.push('/dashboard');
     } catch (error) {
       console.error('Erro ao aceitar chamado', error);
-      alert('Erro ao aceitar chamado.');
+      toast.error('Erro ao aceitar chamado.'); // Substituído por toast.error
     }
   };
 
@@ -67,11 +68,11 @@ export default function TicketDetailsPage() {
     if (!ticket) return;
     try {
       await api.put(`/tickets/${ticket.id}`, { status: 'RESOLVED', assigned_to: user?.id });
-      alert('Chamado resolvido com sucesso!');
+      toast.success('Chamado resolvido com sucesso!'); // Substituído por toast.success
       router.push('/dashboard');
     } catch (error) {
       console.error('Erro ao resolver chamado', error);
-      alert('Erro ao resolver chamado.');
+      toast.error('Erro ao resolver chamado.'); // Substituído por toast.error
     }
   };
   
@@ -79,14 +80,13 @@ export default function TicketDetailsPage() {
     if (!ticket) return;
     try {
       await api.put(`/api/tickets/${ticket.id}`, { status: 'CLOSED', assigned_to: user?.id });
-      alert('Chamado fechado com sucesso!');
+      toast.success('Chamado fechado com sucesso!'); // Substituído por toast.success
       router.push('/dashboard');
     } catch (error) {
       console.error('Erro ao fechar chamado', error);
-      alert('Erro ao fechar chamado.');
+      toast.error('Erro ao fechar chamado.'); // Substituído por toast.error
     }
   };
-
 
   if (loading) {
     return <main>Carregando...</main>;

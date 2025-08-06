@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import api from '@/lib/api';
 import { useRouter } from 'next/navigation';
+import { toast } from 'react-toastify'; // Importamos a biblioteca
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -19,7 +20,7 @@ export default function LoginPage() {
       router.push('/dashboard');
     } catch (error) {
       console.error('Erro no login', error);
-      alert('Email ou senha incorretos.');
+      toast.error('Email ou senha incorretos.'); // Substituído por toast.error
     }
   };
 

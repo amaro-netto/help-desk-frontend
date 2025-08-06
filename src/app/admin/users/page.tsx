@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import api from '@/lib/api';
 import { useRouter } from 'next/navigation';
+import { toast } from 'react-toastify'; // Importamos a biblioteca
 
 export default function ManageUsersPage() {
   const [name, setName] = useState('');
@@ -20,11 +21,11 @@ export default function ManageUsersPage() {
         password,
         role
       });
-      alert(`Usuário ${name} criado com sucesso!`);
+      toast.success(`Usuário ${name} criado com sucesso!`); // Substituído por toast.success
       router.push('/dashboard');
     } catch (error) {
       console.error('Erro ao criar usuário', error);
-      alert('Erro ao criar o usuário. O e-mail pode já estar em uso.');
+      toast.error('Erro ao criar o usuário. O e-mail pode já estar em uso.'); // Substituído por toast.error
     }
   };
 
